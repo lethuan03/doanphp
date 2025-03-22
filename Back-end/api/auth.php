@@ -5,6 +5,10 @@ require_once "../config/database.php";
 $database = new Database();
 $conn = $database->getConnection();
 
+// Khóa bí mật và thời gian hết hạn
+define('JWT_SECRET', 'your-secret-key-here'); // Thay bằng khóa bí mật mạnh
+define('JWT_EXPIRATION', 3600); // 1 giờ
+
 $method = $_SERVER['REQUEST_METHOD'];
 $action = isset($_GET['action']) ? $_GET['action'] : '';
 
@@ -24,7 +28,63 @@ switch ($action) {
         break;
 }
 
-// 📌 Hàm đăng ký
+// Hàm tạo JWT đơn giản
+function generateJWT($user_id, $role_id) {
+    $header = base64_encode(json_encode(['alg' => 'HS256', 'typ' => 'JWT']));
+    $payload = base64_encode(json_encode([
+        'iat' => time(),
+        'exp' => time() + JWT_EXPIRATION,
+        'sub' => $user_id,
+        'role_id' => $role_id
+    ]));
+    $signature = hash_hmac('sha256', "$header.$payload", JWT_SECRET, true);
+    $signature = base64_encode($signature);
+
+    return "$header.$payload.$signature";
+}
+
+// Hàm xác thực JWT
+function verifyJWT($conn) {
+    $headers = getallheaders();
+    if (!isset($headers['Authorization'])) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Thiếu token xác thực']);
+        exit;
+    }
+
+    $token = str_replace('Bearer ', '', $headers['Authorization']);
+    $token_parts = explode('.', $token);
+
+    if (count($token_parts) !== 3) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Token không hợp lệ']);
+        exit;
+    }
+
+    list($header, $payload, $signature) = $token_parts;
+    $decoded_payload = json_decode(base64_decode($payload), true);
+
+    // Kiểm tra chữ ký
+    $expected_signature = hash_hmac('sha256', "$header.$payload", JWT_SECRET, true);
+    $expected_signature = base64_encode($expected_signature);
+
+    if ($signature !== $expected_signature) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Chữ ký token không hợp lệ']);
+        exit;
+    }
+
+    // Kiểm tra thời gian hết hạn
+    if ($decoded_payload['exp'] < time()) {
+        http_response_code(401);
+        echo json_encode(['error' => 'Token đã hết hạn']);
+        exit;
+    }
+
+    return $decoded_payload;
+}
+
+// 📌 Hàm đăng ký (không thay đổi)
 function register($conn) {
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -40,7 +100,6 @@ function register($conn) {
     $role_id = 1; // Mặc định role User
 
     try {
-        // Kiểm tra email hoặc username đã tồn tại
         $stmt = $conn->prepare("SELECT COUNT(*) FROM Users WHERE email = :email OR username = :username");
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':username', $username);
@@ -52,7 +111,6 @@ function register($conn) {
             return;
         }
 
-        // Thêm user mới
         $stmt = $conn->prepare("INSERT INTO Users (email, username, password, role_id) VALUES (:email, :username, :password, :role_id)");
         $stmt->bindParam(':email', $email);
         $stmt->bindParam(':username', $username);
@@ -68,7 +126,7 @@ function register($conn) {
     }
 }
 
-// 📌 Hàm đăng nhập
+// 📌 Hàm đăng nhập (đã thêm JWT)
 function login($conn) {
     $input = json_decode(file_get_contents('php://input'), true);
 
@@ -88,8 +146,10 @@ function login($conn) {
         $user = $stmt->fetch(PDO::FETCH_ASSOC);
 
         if ($user && password_verify($password, $user['password'])) {
+            $token = generateJWT($user['user_id'], $user['role_id']);
             echo json_encode([
                 'message' => 'Đăng nhập thành công',
+                'token' => $token,
                 'user_id' => $user['user_id'],
                 'username' => $user['username'],
                 'role_id' => $user['role_id']
@@ -104,8 +164,12 @@ function login($conn) {
     }
 }
 
-// 📌 Hàm lấy profile (có thể thêm auth sau này)
+// 📌 Hàm lấy profile (đã thêm xác thực JWT)
 function getProfile($conn) {
+    // Xác thực token trước
+    $decoded = verifyJWT($conn);
+    $current_user_id = $decoded['sub']; // user_id từ token
+
     if (!isset($_GET['user_id'])) {
         http_response_code(400);
         echo json_encode(['error' => 'Thiếu user_id']);
@@ -113,6 +177,13 @@ function getProfile($conn) {
     }
 
     $user_id = intval($_GET['user_id']);
+
+    // Chỉ cho phép xem profile của chính mình (hoặc Admin)
+    if ($user_id !== $current_user_id && $decoded['role_id'] != 2) { // Giả sử role_id 2 là Admin
+        http_response_code(403);
+        echo json_encode(['error' => 'Không có quyền truy cập']);
+        return;
+    }
 
     try {
         $stmt = $conn->prepare("SELECT user_id, email, username, role_id FROM Users WHERE user_id = :user_id");
