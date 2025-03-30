@@ -1,0 +1,80 @@
+/* Định dạng toàn bộ trang */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Container chính */
+.container {
+    width: 50%;
+    margin: 30px auto;
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Tiêu đề trang */
+h2 {
+    text-align: center;
+    color: #2d1b69;
+}
+
+/* Định dạng form */
+form {
+    display: flex;
+    flex-direction: column;
+}
+
+/* Nhãn của các input */
+label {
+    font-weight: bold;
+    margin: 10px 0 5px;
+}
+
+/* Ô nhập liệu */
+input[type="text"], 
+textarea, 
+select {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+    font-size: 16px;
+}
+
+/* Textarea chỉnh chiều cao */
+textarea {
+    height: 120px;
+    resize: vertical;
+}
+
+/* File upload */
+input[type="file"] {
+    padding: 5px;
+}
+
+/* Nút bấm */
+button {
+    background-color: #ffcc00;
+    color: black;
+    padding: 12px;
+    font-size: 16px;
+    font-weight: bold;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 15px;
+}
+
+button:hover {
+    background-color: #e6b800;
+}
+
+/* Form thêm chương */
+h3 {
+    color: #333;
+    margin-top: 20px;
+}
