@@ -21,6 +21,7 @@ $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý truyện</title>
+    <link rel="stylesheet" href="../css/header_styles.css">
     <link rel="stylesheet" href="../css/style.css">
     <style>
         table {
@@ -58,9 +59,14 @@ $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             background-color: red;
             color: white;
         }
+        .btn-chapters {
+            background-color: #008CBA;
+            color: white;
+        }
     </style>
 </head>
 <body>
+    <?php include '../views/header.php'; ?>
     <h2 style="text-align: center;">Quản lý Truyện</h2>
     <div style="text-align: center; margin-bottom: 10px;">
         <a href="add_story.php" class="btn btn-add">Thêm Truyện</a>
@@ -70,22 +76,30 @@ $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             <th>Ảnh</th>
             <th>Tiêu đề</th>
             <th>Mô tả</th>
+            <th>Tác giả</th>
+            <th>Thể loại</th>
+            <th>Trạng thái</th>
             <th>Hành động</th>
         </tr>
         <?php foreach ($stories as $story) : ?>
             <tr>
                 <td>
-                    <img src="http://localhost/doanphp/Back-end/<?= htmlspecialchars($story['cover_image']) ?>" 
+                    <img src="http://localhost/doanphp/uploads/<?= htmlspecialchars($story['cover_image']) ?>" 
                          alt="<?= htmlspecialchars($story['title']) ?>">
                 </td>
                 <td><?= htmlspecialchars($story['title']) ?></td>
                 <td><?= nl2br(htmlspecialchars($story['description'])) ?></td>
+                <td><?= htmlspecialchars($story['author_id']) ?></td>
+                <td><?= htmlspecialchars($story['type']) ?></td>
+                <td><?= ($story['status'] == 'ongoing') ? 'Đang ra' : 'Hoàn thành' ?></td>
                 <td>
                     <a href="edit_story.php?story_id=<?= $story['story_id'] ?>" class="btn btn-edit">Sửa</a>
                     <a href="?delete_id=<?= $story['story_id'] ?>" class="btn btn-delete" onclick="return confirm('Bạn có chắc muốn xóa truyện này?');">Xóa</a>
+                    <a href="manage_chapters.php?story_id=<?= $story['story_id'] ?>" class="btn btn-chapters">Chỉnh sửa chương</a>
                 </td>
             </tr>
         <?php endforeach; ?>
     </table>
+    <?php include '../views/footer.php'; ?>
 </body>
 </html>

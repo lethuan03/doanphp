@@ -1,13 +1,18 @@
 header {
-    position: fixed;
+    position: fixed; /* Giữ header cố định */
     top: 0;
+    left: 0;
     width: 100%;
-    background: #333;
-    color: white;
-    padding: 15px 0;
-    text-align: center;
-    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    background: #fff;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
     z-index: 1000;
+    padding: 15px 0;
+}
+
+nav {
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 nav ul {
@@ -15,7 +20,6 @@ nav ul {
     padding: 0;
     margin: 0;
     display: flex;
-    justify-content: center;
 }
 
 nav ul li {
@@ -23,27 +27,12 @@ nav ul li {
 }
 
 nav ul li a {
-    color: white;
     text-decoration: none;
+    color: #333;
+    font-weight: bold;
     font-size: 16px;
-    transition: color 0.3s;
-}
-
-nav ul li a:hover {
-    color: #ff9800;
 }
 
 body {
-    padding-top: 60px;
-}
-.login-btn {
-    background-color: #ff6600;
-    color: white;
-    padding: 8px 15px;
-    border-radius: 5px;
-    text-decoration: none;
-}
-
-.login-btn:hover {
-    background-color: #cc5500;
+    padding-top: 70px; /* Đẩy nội dung xuống để tránh bị header che mất */
 }
