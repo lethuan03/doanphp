@@ -1,22 +1,14 @@
-    <?php
-    class Database {
-        private $host = "localhost";
-        private $db_name = "truyenDB";
-        private $username = "root";
-        private $password = "";
-        public $conn;
+<?php
+$host = 'localhost';          // hoặc 127.0.0.1
+$dbname = 'truyenDB';         // tên CSDL bạn đã tạo
+$username = 'root';           // tài khoản mặc định XAMPP
+$password = '';               // mật khẩu mặc định XAMPP thường để trống
 
-        public function getConnection() {
-            $this->conn = null;
-            try {
-                $this->conn = new PDO("mysql:host=" . $this->host . ";dbname=" . $this->db_name, $this->username, $this->password);
-                $this->conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-            } catch (PDOException $exception) {
-                echo "Lỗi kết nối: " . $exception->getMessage();
-            }
-            return $this->conn;
-        }
-
-        
-    }
-    ?>
+try {
+    $conn = new PDO("mysql:host=$host;dbname=$dbname;charset=utf8mb4", $username, $password);
+    $conn->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
+    // echo "Kết nối thành công!";
+} catch (PDOException $e) {
+    die("Kết nối thất bại: " . $e->getMessage());
+}
+?>
