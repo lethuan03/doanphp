@@ -57,12 +57,14 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     <title>Thêm Truyện Mới</title>
     <link rel="stylesheet" href="../css/header_styles.css">
     <link rel="stylesheet" href="../css/style.css">
-    <link rel="stylesheet" href="../css/">
+    <link rel="stylesheet" href="../css/add_story.css">
+
+    
 </head>
 <body>
     <?php include '../views/header.php'; ?>
     
-    <div class="container">
+    <div class="container"> 
         <h2>Thêm Truyện Mới</h2>
         <form action="" method="post" enctype="multipart/form-data">
             <label>Tiêu đề:</label>
