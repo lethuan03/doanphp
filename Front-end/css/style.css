@@ -1,0 +1,188 @@
+/* ===== Định dạng tổng thể ===== */
+body {
+    font-family: Arial, sans-serif;
+    background-color: #f5f5f5;
+    margin: 0;
+    padding: 0;
+}
+
+/* ===== Container chính ===== */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+}
+
+/* ===== Tiêu đề ===== */
+h3 {
+    text-align: center;
+    color: #333;
+    font-size: 24px;
+    margin-bottom: 20px;
+}
+
+/* ===== THANH TRƯỢT TRUYỆN HOT ===== */
+.slider {
+    overflow: hidden;
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.slider-container {
+    display: flex;
+    gap: 15px;
+    overflow-x: auto;
+    scroll-snap-type: x mandatory;
+    white-space: nowrap;
+    padding-bottom: 10px;
+}
+
+.hot-story {
+    flex: 0 0 auto;
+    width: 200px;
+    scroll-snap-align: start;
+    text-align: center;
+}
+
+.hot-story img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 8px;
+    transition: transform 0.3s ease;
+}
+
+.hot-story:hover img {
+    transform: scale(1.05);
+}
+
+.hot-story h5 {
+    margin-top: 5px;
+    font-size: 16px;
+    color: #2d1b69;
+}
+
+/* ===== BỐ CỤC CHÍNH ===== */
+.main-content {
+    display: flex;
+    gap: 20px;
+}
+
+/* ===== DANH SÁCH TRUYỆN ===== */
+.story-list {
+    flex: 3;
+}
+
+/* ===== GRID DANH SÁCH TRUYỆN ===== */
+.story-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr); /* 4 truyện mỗi hàng */
+    gap: 20px;
+    justify-content: center;
+}
+
+/* ===== CARD TRUYỆN ===== */
+.story-card {
+    background: white;
+    border-radius: 8px;
+    overflow: hidden;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    transition: transform 0.3s ease;
+    text-align: center;
+    padding: 10px;
+}
+
+.story-card:hover {
+    transform: scale(1.05);
+}
+
+/* ===== ẢNH TRUYỆN ===== */
+.story-card img {
+    width: 100%;
+    height: 280px;
+    object-fit: cover;
+    border-radius: 5px;
+}
+
+/* ===== TÊN TRUYỆN ===== */
+.story-card h5 {
+    font-size: 18px;
+    margin: 10px 0;
+    color: #2d1b69;
+}
+
+/* ===== CHƯƠNG MỚI NHẤT ===== */
+.story-card p {
+    font-size: 14px;
+    color: #555;
+}
+
+/* ===== TOP TRUYỆN ===== */
+.top-ranking {
+    flex: 1;
+    background: #f8f8f8;
+    padding: 15px;
+    border-radius: 8px;
+    box-shadow: 0px 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.top-ranking h3 {
+    text-align: center;
+    font-size: 20px;
+    color: #2d1b69;
+    margin-bottom: 10px;
+}
+
+.top-ranking ul {
+    list-style: none;
+    padding: 0;
+}
+
+.top-ranking li {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    margin-bottom: 10px;
+}
+
+.rank {
+    font-weight: bold;
+    font-size: 18px;
+    color: #ff4500;
+}
+
+/* ===== FOOTER ===== */
+footer {
+    text-align: center;
+    padding: 15px;
+    background: #2d1b69;
+    color: white;
+    position: fixed;
+    bottom: 0;
+    width: 100%;
+}
+
+/* ===== RESPONSIVE ===== */
+@media (max-width: 1024px) {
+    .story-grid {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+@media (max-width: 768px) {
+    .main-content {
+        flex-direction: column;
+    }
+    .story-grid {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+@media (max-width: 480px) {
+    .story-grid {
+        grid-template-columns: repeat(1, 1fr);
+    }
+}
