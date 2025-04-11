@@ -73,3 +73,44 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         ]);
     }
 }
+if ($_SERVER['REQUEST_METHOD'] === 'DELETE') {
+    // Parse JSON input if sent in body
+    $input = json_decode(file_get_contents('php://input'), true);
+    $user_id = $input['user_id'] ?? $_GET['user_id'] ?? null;
+    $story_id = $input['story_id'] ?? $_GET['story_id'] ?? null;
+    
+    if (!$user_id || !$story_id) {
+        http_response_code(400);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'User ID and Story ID are required'
+        ]);
+        exit;
+    }
+    
+    $query = "DELETE FROM Favorites WHERE user_id = :user_id AND story_id = :story_id";
+    try {
+        $stmt = $conn->prepare($query);
+        $stmt->execute(['user_id' => $user_id, 'story_id' => $story_id]);
+        
+        if ($stmt->rowCount() > 0) {
+            http_response_code(200);
+            echo json_encode([
+                'status' => 'success',
+                'message' => 'Story removed from favorites'
+            ]);
+        } else {
+            http_response_code(404);
+            echo json_encode([
+                'status' => 'error',
+                'message' => 'Favorite not found'
+            ]);
+        }
+    } catch (PDOException $e) {
+        http_response_code(500);
+        echo json_encode([
+            'status' => 'error',
+            'message' => 'Database error: ' . $e->getMessage()
+        ]);
+    }
+}
