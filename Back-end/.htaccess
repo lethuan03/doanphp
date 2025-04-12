@@ -1,0 +1,8 @@
+
+<FilesMatch "\.php$">
+    Require all granted
+</FilesMatch>
+RewriteEngine On
+RewriteCond %{REQUEST_FILENAME} !-f
+RewriteCond %{REQUEST_FILENAME} !-d
+RewriteRule ^auth.php/([a-zA-Z0-9_]+)$ auth.php?action=$1 [QSA,L]

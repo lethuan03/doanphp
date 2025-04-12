@@ -1,0 +1,91 @@
+/* Định dạng chung */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f4;
+    margin: 0;
+    padding: 0;
+}
+
+/* Header */
+.header {
+    background: #2d1b69;
+    padding: 15px;
+    text-align: center;
+    color: white;
+    font-size: 24px;
+    font-weight: bold;
+}
+
+/* Container chính */
+.container {
+    max-width: 1200px;
+    margin: 20px auto;
+    padding: 20px;
+    background: white;
+    border-radius: 8px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Layout hiển thị danh sách truyện */
+.story-container {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 20px;
+}
+
+/* Card truyện */
+.story-card {
+    width: 230px;
+    background: #fff;
+    border-radius: 10px;
+    overflow: hidden;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transition: transform 0.3s ease-in-out;
+}
+
+.story-card:hover {
+    transform: scale(1.05);
+}
+
+.story-card img {
+    width: 100%;
+    height: 300px;
+    object-fit: cover;
+}
+
+.story-card .card-body {
+    padding: 15px;
+    text-align: center;
+}
+
+.story-card h5 {
+    font-size: 18px;
+    margin: 10px 0;
+    font-weight: bold;
+}
+
+.story-card p {
+    font-size: 14px;
+    color: #666;
+}
+
+/* Nút xem chi tiết */
+.btn-detail {
+    display: block;
+    margin: 10px auto;
+    padding: 10px;
+    background-color: #2d1b69;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: center;
+    text-decoration: none;
+    font-weight: bold;
+    width: 80%;
+}
+
+.btn-detail:hover {
+    background-color: #1b0f45;
+}
