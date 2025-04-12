@@ -96,6 +96,11 @@
             <label for="type">Thể loại:</label>
             <input type="text" name="type" id="type" required>
 
+            <label for="genre">Thể loại chi tiết:</label>
+            <select name="genres[]" id="genre" multiple size="5">
+                <!-- Các thể loại sẽ được thêm vào đây từ API -->
+            </select>
+
             <label for="status">Trạng thái:</label>
             <select name="status" id="status">
                 <option value="ongoing">Đang ra</option>
@@ -109,19 +114,51 @@
     </div>
 
     <script>
+        async function loadGenres() {
+            try {
+                const response = await fetch('http://localhost/doanphp/Back-end/api/genre.php');
+                const genresData = await response.json();
+                const genres = genresData.data;  // Sử dụng phần "data" trong response
+                const genresSelect = document.getElementById('genre');
+                genres.forEach(genre => {
+                    const option = document.createElement('option');
+                    option.value = genre.genre_id;
+                    option.textContent = genre.name;
+                    genresSelect.appendChild(option);
+                });
+            } catch (error) {
+                console.error('Lỗi khi lấy danh sách thể loại:', error);
+            }
+        }
+        
+        // Gọi hàm loadGenres khi trang web được tải
+        document.addEventListener('DOMContentLoaded', loadGenres);
+
         const form = document.getElementById('addStoryForm');
         form.addEventListener('submit', async (e) => {
             e.preventDefault();
 
             const formData = new FormData(form);
+            
+            try {
+                const res = await fetch('http://localhost/doanphp/Back-end/api/story.php', {
+                    method: 'POST',
+                    body: formData
+                });
 
-            const res = await fetch('http://localhost/doanphp/Back-end/api/story.php', {
-                method: 'POST',
-                body: formData
-            });
-
-            const result = await res.json();
-            document.getElementById('response').innerText = result.message;
+                const result = await res.json();
+                document.getElementById('response').innerText = result.message;
+                
+                if (result.success) {
+                    document.getElementById('response').style.color = 'green';
+                } else {
+                    document.getElementById('response').style.color = 'red';
+                }
+            } catch (error) {
+                console.error('Lỗi khi gửi form:', error);
+                document.getElementById('response').innerText = 'Đã xảy ra lỗi khi gửi dữ liệu.';
+                document.getElementById('response').style.color = 'red';
+            }
         });
     </script>
 </body>
