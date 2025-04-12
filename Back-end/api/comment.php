@@ -1,6 +1,9 @@
-=<?php
+<?php
 header('Content-Type: application/json');
 require_once('../config/database.php');
+
+$database = new Database();
+$pdo = $database->getConnection();
 
 // GET COMMENT BY CHAPTER_ID
 if ($_SERVER['REQUEST_METHOD'] === 'GET') {
@@ -11,7 +14,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'GET') {
         exit;
     }
 
-    $stmt = $conn->prepare("
+    $stmt = $pdo->prepare("
         SELECT c.comment_id, c.content, c.created_at, u.username, u.avatar
         FROM comments c
         JOIN users u ON c.user_id = u.user_id
@@ -38,7 +41,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         exit;
     }
 
-    $stmt = $conn->prepare("INSERT INTO comments (user_id, chapter_id, content) VALUES (?, ?, ?)");
+    $stmt = $pdo->prepare("INSERT INTO comments (user_id, chapter_id, content) VALUES (?, ?, ?)");
     $stmt->execute([$user_id, $chapter_id, $content]);
 
     echo json_encode(['status' => 'success', 'message' => 'Bình luận đã được thêm']);
