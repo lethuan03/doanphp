@@ -20,13 +20,15 @@
     </div>
     
     <script>
-        fetch('http://localhost/doanphp/Back-end/api/story.php')
+    fetch('http://localhost/doanphp/Back-end/api/story.php')
     .then(response => response.json())
-    .then(data => {
+    .then(response => {
+        const stories = response.data; // Lấy mảng truyện từ key `data`
+
         let storyList = document.getElementById('story-list');
         storyList.classList.add('story-container');
 
-        data.forEach(story => {
+        stories.forEach(story => {
             let storyItem = `
                 <div class="story-card">
                     <a href="Front-end/php/detail_story.php?story_id=${story.story_id}">
