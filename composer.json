@@ -1,0 +1,17 @@
+{
+    "name": "pc/doanphp",
+    "autoload": {
+        "psr-4": {
+            "Pc\\Doanphp\\": "src/"
+        }
+    },
+    "authors": [
+        {
+            "name": "Le Tran Chi Tai",
+            "email": "letranchitai251203@gmail.com"
+        }
+    ],
+    "require": {
+        "smalot/pdfparser": "^2.12"
+    }
+}
