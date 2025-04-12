@@ -1,6 +1,6 @@
 <?php
 require_once '../config/database.php';
-require_once '../utils/auth.php'; // File chứa verifyJWT và sendResponse
+require_once '../api/auth.php'; // File chứa verifyJWT và sendResponse
 
 header("Content-Type: application/json");
 

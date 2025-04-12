@@ -14,7 +14,6 @@ try {
         case 'GET':
             // Xem thể loại: Công khai, không yêu cầu đăng nhập
             if (isset($_GET['genre_id'])) {
-                // Lấy thể loại theo ID
                 $stmt = $pdo->prepare("SELECT * FROM Genres WHERE genre_id = ?");
                 $stmt->execute([$_GET['genre_id']]);
                 $genre = $stmt->fetch(PDO::FETCH_ASSOC);
@@ -25,7 +24,6 @@ try {
                     sendResponse(404, ["success" => false, "message" => "Không tìm thấy thể loại"]);
                 }
             } else {
-                // Lấy tất cả thể loại
                 $stmt = $pdo->query("SELECT * FROM Genres");
                 $genres = $stmt->fetchAll(PDO::FETCH_ASSOC);
                 sendResponse(200, ["success" => true, "data" => $genres]);
@@ -49,7 +47,6 @@ try {
                 break;
             }
 
-            // Kiểm tra xem tên thể loại đã tồn tại chưa
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM Genres WHERE name = ?");
             $stmt->execute([$data['name']]);
             if ($stmt->fetchColumn() > 0) {
@@ -64,7 +61,6 @@ try {
             break;
 
         case 'PUT':
-            // Cập nhật thể loại: Chỉ Admin được phép
             $decoded = verifyJWT($pdo);
             $role_id = $decoded['role_id'];
 
@@ -80,7 +76,6 @@ try {
                 break;
             }
 
-            // Kiểm tra xem thể loại có tồn tại không
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM Genres WHERE genre_id = ?");
             $stmt->execute([$data['genre_id']]);
             if ($stmt->fetchColumn() == 0) {
@@ -88,7 +83,6 @@ try {
                 break;
             }
 
-            // Kiểm tra xem tên thể loại mới đã tồn tại chưa
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM Genres WHERE name = ? AND genre_id != ?");
             $stmt->execute([$data['name'], $data['genre_id']]);
             if ($stmt->fetchColumn() > 0) {
@@ -103,7 +97,6 @@ try {
             break;
 
         case 'DELETE':
-            // Xóa thể loại: Chỉ Admin được phép
             $decoded = verifyJWT($pdo);
             $role_id = $decoded['role_id'];
 
@@ -119,7 +112,6 @@ try {
                 break;
             }
 
-            // Kiểm tra xem thể loại có tồn tại không
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM Genres WHERE genre_id = ?");
             $stmt->execute([$data['genre_id']]);
             if ($stmt->fetchColumn() == 0) {
@@ -127,7 +119,6 @@ try {
                 break;
             }
 
-            // Kiểm tra xem thể loại có truyện liên quan không
             $stmt = $pdo->prepare("SELECT COUNT(*) FROM Story_Genres WHERE genre_id = ?");
             $stmt->execute([$data['genre_id']]);
             if ($stmt->fetchColumn() > 0) {
@@ -148,5 +139,10 @@ try {
 } catch (Exception $e) {
     error_log("Error in genres.php: " . $e->getMessage());
     sendResponse(500, ["success" => false, "message" => "Lỗi server: " . $e->getMessage()]);
+}
+
+function sendResponse($statusCode, $data) {
+    http_response_code($statusCode);
+    echo json_encode($data);
 }
 ?>
