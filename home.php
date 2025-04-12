@@ -20,14 +20,16 @@
     </div>
     
     <script>
-        fetch('http://localhost/doanphp/Back-end/api/story.php')
+    fetch('http://localhost/doanphp/Back-end/api/story.php')
     .then(response => response.json())
-    .then(data => {
+    .then(response => {
+        const stories = response.data; // Lấy mảng truyện từ key data
+
         let storyList = document.getElementById('story-list');
         storyList.classList.add('story-container');
 
-        data.forEach(story => {
-            let storyItem = `
+        stories.forEach(story => {
+            let storyItem = 
                 <div class="story-card">
                     <a href="Front-end/php/detail_story.php?story_id=${story.story_id}">
                         <img src="http://localhost/doanphp/Back-end/${story.cover_image}" alt="${story.title}" width="200" height="250">
@@ -35,7 +37,7 @@
                     <h5>${story.title}</h5>
                     <p>Chapter ${story.latest_chapter}</p>
                 </div>
-            `;
+            ;
             storyList.innerHTML += storyItem;
         });
     })
