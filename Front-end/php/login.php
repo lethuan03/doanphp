@@ -8,7 +8,7 @@ session_start();
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Nhập</title>
     <link rel="stylesheet" href="../css/header_styles.css">
-    <link rel="stylesheet" href="../css/login_styles.css">
+    <link rel="stylesheet" href="../css/login.css">
 </head>
 <body>
 <?php include __DIR__ . '/../views/header.php'; ?>
@@ -38,10 +38,21 @@ session_start();
             $_SESSION["user_id"] = $result["user_id"];
             $_SESSION["username"] = $result["username"];
             $_SESSION["role_id"] = $result["role_id"];
+            
+            // Lưu token nếu có
+            if (isset($result["token"])) {
+                $_SESSION["token"] = $result["token"];
+            }
 
-            // Chuyển hướng về trang home
-            header("Location: /doanphp/home.php");
-            exit();
+            // Kiểm tra role và chuyển hướng
+            if ($_SESSION["role_id"] == 2 ) { // Giả sử role_id = 1 là admin
+                header("Location: /doanphp/Front-end/php/admin.php");
+                exit();
+            } else {
+                // Chuyển hướng về trang home cho người dùng thông thường
+                header("Location: /doanphp/home.php");
+                exit();
+            }
         } else {
             echo "<p style='color: red;'>Lỗi đăng nhập: " . ($result['error'] ?? "Thông tin không hợp lệ") . "</p>";
         }

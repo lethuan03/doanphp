@@ -4,9 +4,11 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Đăng Ký</title>
-    <link rel="stylesheet" href="../css/login_styles.css">
+    <link rel="stylesheet" href="../css/header_styles.css">
+    <link rel="stylesheet" href="../css/register.css">
 </head>
 <body>
+<?php include __DIR__ . '/../views/header.php'; ?>
     <h2>Đăng Ký</h2>
     <?php
     if ($_SERVER["REQUEST_METHOD"] == "POST") {
@@ -45,5 +47,6 @@
         <button type="submit">Đăng Ký</button>
     </form>
     <p>Đã có tài khoản? <a href="login.php">Đăng nhập</a></p>
+    <?php include __DIR__ . '/../views/footer.php'; ?>
 </body>
 </html>

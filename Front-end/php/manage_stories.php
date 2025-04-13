@@ -22,45 +22,11 @@ $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Quản lý truyện</title>
     <link rel="stylesheet" href="../css/style.css">
-    <style>
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            margin-top: 20px;
-        }
-        th, td {
-            border: 1px solid #ddd;
-            padding: 10px;
-            text-align: center;
-        }
-        th {
-            background-color: #2d1b69;
-            color: white;
-        }
-        img {
-            width: 120px;
-            height: 150px;
-            object-fit: cover;
-            border-radius: 5px;
-        }
-        .btn {
-            padding: 5px 10px;
-            margin: 2px;
-            text-decoration: none;
-            border-radius: 5px;
-            display: inline-block;
-        }
-        .btn-edit {
-            background-color: #ffcc00;
-            color: black;
-        }
-        .btn-delete {
-            background-color: red;
-            color: white;
-        }
-    </style>
+    <link rel="stylesheet" href="../css/manage_stories.css">
+    <link rel="stylesheet" href="../css/header_styles.css">
 </head>
 <body>
+<?php include '../views/header.php'; ?>
     <h2 style="text-align: center;">Quản lý Truyện</h2>
     <div style="text-align: center; margin-bottom: 10px;">
         <a href="add_story.php" class="btn btn-add">Thêm Truyện</a>
@@ -88,5 +54,6 @@ $stories = $stmt->fetchAll(PDO::FETCH_ASSOC);
             </tr>
         <?php endforeach; ?>
     </table>
+    <?php include '../views/footer.php'; ?>
 </body>
 </html>

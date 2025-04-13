@@ -58,7 +58,7 @@ input[type="file"] {
 
 /* Nút bấm */
 button {
-    background-color: #ffcc00;
+    background-color: #00ccff;
     color: black;
     padding: 12px;
     font-size: 16px;
@@ -70,7 +70,7 @@ button {
 }
 
 button:hover {
-    background-color: #e6b800;
+    background-color: #36ff00;
 }
 
 /* Form thêm chương */

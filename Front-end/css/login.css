@@ -1,0 +1,131 @@
+/* Front-end/css/login_styles.css */
+
+/* Ensure body has a consistent background and font */
+body {
+    font-family: 'Arial', sans-serif;
+    background-color: #f4f4f9;
+    color: #333;
+    margin: 0;
+    padding: 0;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+
+/* Center the content */
+h2 {
+    text-align: center;
+    color: #2c3e50;
+    margin: 20px 0;
+    font-size: 28px;
+    font-weight: 600;
+}
+
+/* Form container */
+form {
+    max-width: 400px;
+    margin: 20px auto;
+    background: #ffffff;
+    padding: 30px;
+    border-radius: 10px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    display: flex;
+    flex-direction: column;
+}
+
+/* Form labels */
+label {
+    font-size: 14px;
+    color: #2c3e50;
+    margin-bottom: 5px;
+    font-weight: 500;
+}
+
+/* Input fields */
+input[type="email"],
+input[type="password"] {
+    width: 100%;
+    padding: 12px;
+    margin-bottom: 15px;
+    border: 1px solid #ddd;
+    border-radius: 5px;
+    font-size: 16px;
+    transition: border-color 0.3s ease;
+}
+
+input[type="email"]:focus,
+input[type="password"]:focus {
+    border-color: #3498db;
+    outline: none;
+    box-shadow: 0 0 5px rgba(52, 152, 219, 0.3);
+}
+
+/* Submit button */
+button[type="submit"] {
+    background: linear-gradient(90deg, #3498db, #2c3e50);
+    color: #ffffff;
+    border: none;
+    padding: 12px;
+    border-radius: 5px;
+    font-size: 16px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background 0.3s ease;
+}
+
+button[type="submit"]:hover {
+    background: linear-gradient(90deg, #2c3e50, #3498db);
+}
+
+/* Error message */
+p[style*="color: red"] {
+    text-align: center;
+    font-size: 14px;
+    margin: 10px 0;
+    padding: 10px;
+    background-color: #ffe6e6;
+    border-radius: 5px;
+}
+
+/* Register link */
+p {
+    text-align: center;
+    margin-top: 20px;
+    font-size: 14px;
+}
+
+p a {
+    color: #3498db;
+    text-decoration: none;
+    font-weight: 500;
+}
+
+p a:hover {
+    text-decoration: underline;
+    color: #2c3e50;
+}
+
+/* Responsive design */
+@media (max-width: 480px) {
+    form {
+        margin: 20px;
+        padding: 20px;
+    }
+
+    h2 {
+        font-size: 24px;
+    }
+
+    input[type="email"],
+    input[type="password"],
+    button[type="submit"] {
+        font-size: 14px;
+    }
+}
+
+/* Accessibility */
+input:focus,
+button:focus {
+    outline: 2px solid #3498db;
+    outline-offset: 2px;
+}

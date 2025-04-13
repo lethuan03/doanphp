@@ -34,9 +34,11 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="../css/header_styles.css">
     <title>Chỉnh sửa chương</title>
 </head>
 <body>
+<?php include '../views/header.php'; ?>
     <h2>Chỉnh sửa chương</h2>
     <form action="" method="post">
         <label>Tiêu đề chương:</label>
@@ -47,5 +49,6 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         
         <button type="submit">Cập nhật</button>
     </form>
+    <?php include '../views/footer.php'; ?>
 </body>
 </html>

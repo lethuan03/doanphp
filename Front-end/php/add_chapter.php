@@ -14,9 +14,10 @@ $stories = $stmt->fetchAll();
     <meta charset="UTF-8">
     <title>Thêm chương mới</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="../css/header_styles.css">
 </head>
 <body class="bg-light">
-
+<?php include '../views/header.php'; ?>
 <div class="container mt-5">
     <h2 class="mb-4">📚 Thêm Chương Mới</h2>
 
@@ -77,6 +78,6 @@ document.getElementById('addChapterForm').addEventListener('submit', function (e
     });
 });
 </script>
-
+<?php include '../views/footer.php'; ?>
 </body>
 </html>

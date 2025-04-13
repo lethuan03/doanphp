@@ -4,6 +4,7 @@
   <meta charset="UTF-8">
   <title>Chỉnh sửa truyện</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <link rel="stylesheet" href="../css/header_styles.css">
   <style>
     .preview-img {
       max-width: 150px;
@@ -12,6 +13,7 @@
   </style>
 </head>
 <body class="container py-4">
+<?php include '../views/header.php'; ?>
   <h2 class="mb-4">Chỉnh sửa truyện</h2>
 
   <form id="editStoryForm" enctype="multipart/form-data">
@@ -28,7 +30,7 @@
     </div>
 
     <div class="mb-3">
-      <label for="cover_image" class="form-label">Ảnh bìa</label>
+      <label for="cover_image" class="form-label">Ảnh bìa (chỉ chọn nếu muốn thay)</label>
       <input type="file" class="form-control" id="cover_image" name="cover_image">
       <img id="currentImage" class="preview-img" src="" alt="Ảnh hiện tại">
       <img id="newImagePreview" class="preview-img d-none" alt="Ảnh mới">
@@ -56,7 +58,7 @@
     async function loadAuthors() {
       const res = await fetch("http://localhost/doanphp/Back-end/api/author.php");
       const authors = await res.json();
-      document.getElementById("author_id").innerHTML = authors.map(a => 
+      document.getElementById("author_id").innerHTML = authors.map(a =>
         `<option value="${a.user_id}">${a.username}</option>`).join("");
     }
 
@@ -75,7 +77,7 @@
       document.getElementById("description").value = story.description;
       document.getElementById("author_id").value = story.author_id;
       document.getElementById("type").value = story.type;
-      currentImg.src = "../../Back-end/" + story.cover_image;
+      currentImg.src = `../../Back-end/${story.cover_image}`;
     }
 
     document.getElementById("cover_image").addEventListener("change", () => {
@@ -91,21 +93,23 @@
     });
 
     form.addEventListener("submit", async (e) => {
-  e.preventDefault();
-  const formData = new FormData(form);
-  formData.append("_method", "PUT");
+      e.preventDefault();
 
-  const res = await fetch("http://localhost/doanphp/Back-end/api/story.php", {
-    method: "POST", // vẫn là POST do có ảnh
-    body: formData
-  });
+      const formData = new FormData(form);
+      formData.append("_method", "PUT"); // Rất quan trọng
 
-  const result = await res.json();
-  alert(result.message);
-});
+      const res = await fetch("http://localhost/doanphp/Back-end/api/story.php", {
+        method: "POST", // POST + _method=PUT để sửa
+        body: formData
+      });
 
+      const result = await res.json();
+      alert(result.message || result.error);
+    });
 
+    // Load dữ liệu ban đầu
     loadAuthors().then(loadGenres).then(loadStory);
   </script>
+  <?php include '../views/footer.php'; ?>
 </body>
 </html>
