@@ -1,0 +1,106 @@
+-- Sử dụng cơ sở dữ liệu
+CREATE DATABASE truyenDB;
+USE truyenDB;
+
+-- Bảng Vai trò (Roles)
+CREATE TABLE Roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    role_name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Bảng Người dùng (Users)
+CREATE TABLE Users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    email VARCHAR(100) NOT NULL UNIQUE,
+    password VARCHAR(255) NOT NULL,
+    avatar VARCHAR(255),
+    role_id INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (role_id) REFERENCES Roles(role_id) ON DELETE SET NULL
+);
+
+-- Bảng Truyện (Stories)
+CREATE TABLE Stories (
+    story_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    description TEXT,
+    cover_image VARCHAR(255),
+    author_id INT,
+    type ENUM('novel', 'comic') NOT NULL,
+    status ENUM('ongoing', 'completed') DEFAULT 'ongoing',
+    views INT DEFAULT 0,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (author_id) REFERENCES Users(user_id) ON DELETE SET NULL
+);
+
+-- Bảng Thể loại (Genres)
+CREATE TABLE Genres (
+    genre_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) NOT NULL UNIQUE
+);
+
+-- Bảng Truyện - Thể loại (Story_Genres)
+CREATE TABLE Story_Genres (
+    story_id INT,
+    genre_id INT,
+    PRIMARY KEY (story_id, genre_id),
+    FOREIGN KEY (story_id) REFERENCES Stories(story_id) ON DELETE CASCADE,
+    FOREIGN KEY (genre_id) REFERENCES Genres(genre_id) ON DELETE CASCADE
+);
+
+-- Bảng Chương truyện (Chapters)
+CREATE TABLE Chapters (
+    chapter_id INT AUTO_INCREMENT PRIMARY KEY,
+    story_id INT,
+    chapter_number INT NOT NULL,
+    title VARCHAR(255),
+    content TEXT,
+    image_path VARCHAR(255),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    updated_at DATETIME DEFAULT CURRENT_TIMESTAMP ON UPDATE CURRENT_TIMESTAMP,
+    FOREIGN KEY (story_id) REFERENCES Stories(story_id) ON DELETE CASCADE
+);
+
+-- Bảng Bình luận (Comments)
+CREATE TABLE Comments (
+    comment_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    chapter_id INT,
+    content TEXT NOT NULL,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (chapter_id) REFERENCES Chapters(chapter_id) ON DELETE CASCADE
+);
+
+-- Bảng Đánh giá (Ratings)
+CREATE TABLE Ratings (
+    rating_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    story_id INT,
+    rating_value INT CHECK (rating_value BETWEEN 1 AND 5),
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (story_id) REFERENCES Stories(story_id) ON DELETE CASCADE
+);
+
+-- Bảng Yêu thích (Favorites)
+CREATE TABLE Favorites (
+    favorite_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    story_id INT,
+    created_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (story_id) REFERENCES Stories(story_id) ON DELETE CASCADE
+);
+
+-- Bảng Lịch sử đọc (Reading_History)
+CREATE TABLE Reading_History (
+    history_id INT AUTO_INCREMENT PRIMARY KEY,
+    user_id INT,
+    chapter_id INT,
+    read_at DATETIME DEFAULT CURRENT_TIMESTAMP,
+    FOREIGN KEY (user_id) REFERENCES Users(user_id) ON DELETE CASCADE,
+    FOREIGN KEY (chapter_id) REFERENCES Chapters(chapter_id) ON DELETE CASCADE
+);
