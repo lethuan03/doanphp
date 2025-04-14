@@ -14,12 +14,15 @@
 
     <div class="container mt-4">
         <h3>Danh sách truyện</h3>
+        
         <div class="story-grid" id="story-list">
             <!-- Danh sách truyện sẽ được tải ở đây -->
         </div>
     </div>
-    
+    <?php include __DIR__ . '/Front-end/views/top_stories.php'; ?>
     <script>
+
+    // Tải danh sách truyện (code hiện tại của bạn)
     fetch('http://localhost/doanphp/Back-end/api/story.php')
     .then(response => response.json())
     .then(response => {
@@ -43,15 +46,14 @@
     })
     .catch(error => console.error('Lỗi:', error));
 
-
-        function logout() {
-            fetch("http://localhost/doanphp/Back-end/api/auth.php?action=logout")
-                .then(response => response.json())
-                .then(() => {
-                    window.location.href = "login.php";
-                })
-                .catch(error => console.error("Lỗi đăng xuất:", error));
-        }
+    function logout() {
+        fetch("http://localhost/doanphp/Back-end/api/auth.php?action=logout")
+            .then(response => response.json())
+            .then(() => {
+                window.location.href = "login.php";
+            })
+            .catch(error => console.error("Lỗi đăng xuất:", error));
+    }
     </script>
     
     <?php include __DIR__ . '/Front-end/views/footer.php'; ?>

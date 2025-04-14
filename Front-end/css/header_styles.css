@@ -16,7 +16,7 @@ body {
 
 /* Header styling */
 header {
-    background: linear-gradient(90deg, #2c3e50, #3498db); /* Gradient background */
+    background-image: url('https://nettruyenxyz.com/assets/images/bg_header_2017.jpg');
     box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
     position: sticky;
     top: 0;
