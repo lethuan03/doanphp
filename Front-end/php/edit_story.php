@@ -72,12 +72,27 @@
     async function loadStory() {
       const res = await fetch(`http://localhost/doanphp/Back-end/api/story.php?story_id=${storyId}`);
       const story = await res.json();
+
+      // Kiểm tra nếu không có thể loại, hãy thêm lựa chọn mặc định
+      const genreSelect = document.getElementById("type");
+      if (story.genres && story.genres.length > 0) {
+        // Nếu có thể loại, chọn thể loại đầu tiên trong danh sách
+        document.getElementById("type").value = story.genres[0].genre_id;
+      } else {
+        // Nếu không có thể loại, thêm lựa chọn mặc định
+        genreSelect.innerHTML = "<option value=''>Chưa có thể loại</option>";
+      }
+
       document.getElementById("story_id").value = story.story_id;
       document.getElementById("title").value = story.title;
       document.getElementById("description").value = story.description;
       document.getElementById("author_id").value = story.author_id;
-      document.getElementById("type").value = story.type;
       currentImg.src = `../../Back-end/${story.cover_image}`;
+
+      // Nếu không có ảnh bìa, ẩn ảnh hiện tại
+      if (!story.cover_image) {
+        currentImg.style.display = 'none';
+      }
     }
 
     document.getElementById("cover_image").addEventListener("change", () => {
